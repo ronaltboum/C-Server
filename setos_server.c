@@ -88,7 +88,7 @@ void *work_routine (void *keypath)
       
       int deq_val = dequeue(queue, &socket_number_ptr);
       if(deq_val != 0){
-	printf( "Error: dequeue failed. Return code from dequeue is %d\n", deq_val); //Moshe said in forum we can print erros concerning the queue without errno
+	printf( "Error: dequeue failed. Return code from dequeue is %d\n", deq_val);
 	exit(-1);
       }
       
@@ -272,13 +272,13 @@ int main (int argc, char *argv[])
       return -1;
   }
   
-  numThreads = atoi(argv[1]);  //Moshe said arguments from user are valid, so no need to check the arguments by using strtol
+  numThreads = atoi(argv[1]);
   int portNum = atoi(argv[2]);
   
   
   int initVal = initialize_Queue(queue);
   if(initVal != 0){
-      printf("ERROR: initialize_Queue failed. Return code from initialize_Queue is %d\n", initVal);  //Moshe said in forum that we can print errors concerning the queue without errno
+      printf("ERROR: initialize_Queue failed. Return code from initialize_Queue is %d\n", initVal);
       return -1;  
   }
   

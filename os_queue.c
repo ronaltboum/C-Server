@@ -33,7 +33,7 @@ int initialize_Queue(Queue *queue_ptr)
   }
   ret_val = pthread_cond_init ( &(queue_ptr->isEmpty) , NULL);
   if(ret_val !=0){
-      pthread_mutex_destroy( &(queue_ptr -> Queue_Lock) );  //no need to check return value because Moshe said in forum to return the value of the first error which is ret_val in this case
+      pthread_mutex_destroy( &(queue_ptr -> Queue_Lock) );
       return ret_val;  
   }
   
@@ -73,7 +73,7 @@ int enqueue (Queue *queue_ptr, int number)
     ++(queue_ptr -> queue_size);
     int sig_ret = pthread_cond_signal ( &(queue_ptr -> isEmpty) );
     
-    if(sig_ret !=0){  //Moshe said in forum to return the first error
+    if(sig_ret !=0){
       pthread_mutex_unlock ( &(queue_ptr -> Queue_Lock) );
       return sig_ret;
     }
@@ -101,8 +101,7 @@ int dequeue (Queue *queue_ptr , int *num_val)
       }
   }
   
-  //queue isn't empty now. 
-  //Moshe said in forum queue should be first in first out
+  //queue isn't empty now.
   Node *firstNode = queue_ptr -> head;
   queue_ptr -> head = firstNode -> next;
   if(queue_ptr -> head == NULL)
@@ -120,7 +119,6 @@ int dequeue (Queue *queue_ptr , int *num_val)
 
 //if the user allocated queue_ptr dynamically,  it's the user's responsiblity to free it
 //returns 0 on success,  and error number on failure
-//Moshe said in forum initiaze, destroy functions do not need to be thread safe, and that we can assume that no other thread will call another queue function in parallel.  Therefore, we do not need to lock.
 int destroy_queue(Queue *queue_ptr)
 {
     
@@ -136,7 +134,7 @@ int destroy_queue(Queue *queue_ptr)
     }
     
     int mutex_val = pthread_mutex_destroy( &(queue_ptr -> Queue_Lock) );
-    if(mutex_val != 0){  //Moshe said in forum no need to return cleanly
+    if(mutex_val != 0){
 	return mutex_val;
      }
     
